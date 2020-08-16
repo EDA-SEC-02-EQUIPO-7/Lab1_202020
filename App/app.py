@@ -154,8 +154,8 @@ def main():
                 print("Coinciden ",counter," elementos con el crtierio: ", criteria  )
             elif int(inputs[0])==4: #opcion 4
                 criteria =input('Ingrese el criterio de búsqueda\n')
-                counter=countElementsByCriteria(criteria,listac,listar)
-                print("Coinciden ",counter," elementos con el crtierio: '", criteria ,"' (en construcción ...)")
+                counter,promedio=countElementsByCriteria(criteria,listac,listar)
+                print("En total, hay ",counter," películas del director: '", criteria ,".' Dichas películas tuvieron una votacion promedio de: " , promedio)
             elif int(inputs[0])==0: #opcion 0, salir
                 sys.exit(0)
 
