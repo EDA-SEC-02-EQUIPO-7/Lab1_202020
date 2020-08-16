@@ -83,6 +83,8 @@ def printMenu():
     print("4- Consultar elementos a partir de dos listas")
     print("0- Salir")
 
+
+
 def countElementsFilteredByColumn(criteria, column, lst):
     """
     Retorna cuantos elementos coinciden con un criterio para una columna dada  
@@ -118,11 +120,12 @@ def countElementsByCriteria(criteria, lst ,lst2):
     sumatoria=0
     for i in range (0,len(lst)-2) :
         if lst2[i]["director_name"]==criteria and float(lst[i]["vote_average"]) >= 6:
-            print(lst2[i]["director_name"]) 
-            print((lst[i]["vote_average"]))
             contador+=1
             sumatoria+=float(lst[i]["vote_average"])
-    tupla=(contador,sumatoria/contador)
+        if contador>0:
+            tupla=(contador,sumatoria/contador)
+        else:
+            tupla=(0,0)
     return tupla
 
 
@@ -149,13 +152,15 @@ def main():
                     print("La lista esta vacía")    
                 else: print("La lista tiene "+str(len(listac))+" elementos")
             elif int(inputs[0])==3: #opcion 3
+                column=input("Ingrese el nombre de la columna en la cual desea filtrar\n")
                 criteria =input('Ingrese el criterio de búsqueda\n')
-                counter=countElementsFilteredByColumn(criteria, "nombre", listac) #filtrar una columna por criterio  
-                print("Coinciden ",counter," elementos con el crtierio: ", criteria  )
+                counter=countElementsFilteredByColumn(criteria,column, listac) #filtrar una columna por criterio  
+                print("Coinciden ",counter," elementos con el criterio: ", criteria  )
             elif int(inputs[0])==4: #opcion 4
+
                 criteria =input('Ingrese el criterio de búsqueda\n')
                 counter=countElementsByCriteria(criteria,listac,listar)
-                print("Coinciden ",counter," elementos con el crtierio: '", criteria ,"' (en construcción ...)")
+                print("Coinciden ",counter[0]," elementos con el criterio: ", criteria ," .Por lo tanto cuenta con un promedio de votacion de ",counter[1])
             elif int(inputs[0])==0: #opcion 0, salir
                 sys.exit(0)
 
