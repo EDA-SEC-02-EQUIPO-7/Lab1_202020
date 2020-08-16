@@ -38,8 +38,9 @@ import sys
 import csv
 from time import process_time 
 
+"""
 def loadCSVFile (file, lst, sep=";"):
-    """
+   
     Carga un archivo csv a una lista
     Args:
         file 
@@ -52,7 +53,7 @@ def loadCSVFile (file, lst, sep=";"):
         Intenta cargar el archivo CSV a la lista que se le pasa por parametro, si encuentra algun error
         Borra la lista e informa al usuario
     Returns: None   
-    """
+    
     del lst[:]
     print("Cargando archivo ....")
     t1_start = process_time() #tiempo inicial
@@ -70,6 +71,90 @@ def loadCSVFile (file, lst, sep=";"):
     
     t1_stop = process_time() #tiempo final
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
+
+"""
+
+def loadCSVFile (file,file2, lst, sep=";"):
+    """
+    Carga un archivo csv a una lista
+    Args:
+        file 
+            Archivo de texto del cual se cargaran los datos requeridos.
+        lst :: []
+            Lista a la cual quedaran cargados los elementos despues de la lectura del archivo.
+        sep :: str
+            Separador escodigo para diferenciar a los distintos elementos dentro del archivo.
+    Try:
+        Intenta cargar el archivo CSV a la lista que se le pasa por parametro, si encuentra algun error
+        Borra la lista e informa al usuario
+    Returns: None   
+    """
+    del lst[:]
+    print("Cargando archivo ....")
+    try:
+        with open(file, encoding="utf-8") as csvfile:
+            csvfile2=open(file2, encoding="utf-8")
+            linea=csvfile.readline()
+            linea=csvfile.readline()
+            linea2=csvfile2.readline()
+            linea2=csvfile2.readline()
+            while(len(linea)>0):               
+                diccio={}             
+                datos=linea.split(";")
+                datos2=linea2.split(";")
+                diccio["id"]=datos[0]
+                diccio["budget"]=datos[1]
+                diccio["genres"]=datos[2]
+                diccio["imdb_id"]=datos[3]
+                diccio["original_language"]=datos[4]
+                diccio["original_title"]=datos[5]
+                diccio["overview"]=datos[6]
+                diccio["popularity"]=datos[7]
+                diccio["production_companies"]=datos[8]
+                diccio["production_countries"]=datos[9]
+                diccio["release_date"]=datos[10]
+                diccio["revenue"]=datos[11]
+                diccio["runtime"]=datos[12]
+                diccio["spoken_languages"]=datos[13]
+                diccio["status"]=datos[14]
+                diccio["tagline"]=datos[15]
+                diccio["title"]=datos[16]
+                diccio["vote_average"]=datos[17]
+                diccio["vote_count"]=datos[18]
+                diccio["production_companies_number"]=datos[19]
+                diccio["production_countries_number"]=datos[20]
+                diccio["spoken_languages_number"]=datos[21].replace("\n","")
+                diccio["actor1_name"]=datos2[1]
+                diccio["actor1_gender"]=datos2[2]
+                diccio["actor2_name"]=datos2[3]
+                diccio["actor2_gender"]=datos2[4]
+                diccio["actor3_name"]=datos2[5]
+                diccio["actor3_gender"]=datos2[6]
+                diccio["actor4_name"]=datos2[7]
+                diccio["actor4_gender"]=datos2[8]
+                diccio["actor5_name"]=datos2[9]
+                diccio["actor5_gender"]=datos2[10]
+                diccio["actor_number"]=datos2[11]
+                diccio["director_name"]=datos2[12]
+                diccio["director_number"]=datos2[13]
+                diccio["producer_name"]=datos2[14]
+                diccio["producer_number"]=datos2[15]
+                diccio["screenplay_name"]=datos2[16]
+                diccio["editor_name"]=datos2[17].replace("\n","")
+                lst.append([diccio])                
+                linea=csvfile.readline()
+                linea2=csvfile2.readline()
+
+             
+    except:
+        del lst[:]
+        print("Se presento un error en la carga del archivo")
+
+    t1_stop = process_time() #tiempo final
+    print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
+        
+
+
 
 def printMenu():
     """
@@ -142,9 +227,10 @@ def main():
         inputs =input('Seleccione una opción para continuar\n') #leer opción ingresada
         if len(inputs)>0:
             if int(inputs[0])==1: #opcion 1
-                loadCSVFile("Data/SmallMoviesDetailsCleaned.csv", listac) #llamar funcion cargar datos
-                loadCSVFile("Data/MoviesCastingRaw-small.csv",listar )
-                print("Datos cargados, "+str(len(listac))+" elementos cargados")
+                loadCSVFile ("SmallMoviesDetailsCleaned.csv","SmallMoviesDetailsCleaned.csv", lst, sep=";")
+                #loadCSVFile("Data/SmallMoviesDetailsCleaned.csv", listac) #llamar funcion cargar datos
+                #loadCSVFile("Data/MoviesCastingRaw-small.csv",listar )
+                print("Datos cargados, "+str(len(lst))+" elementos cargados")
             elif int(inputs[0])==2: #opcion 2
                 if len(listac)==0: #obtener la longitud de la lista
                     print("La lista esta vacía")    
@@ -163,4 +249,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
 
