@@ -33,7 +33,6 @@ Esto es un comentario de prueba. No olvidar borrar
 Esto es un comentario de prueba. No olvidar borrar
 """
 
-
 import config as cf
 import sys
 import csv
@@ -84,6 +83,8 @@ def printMenu():
     print("0- Salir")
 
 def countElementsFilteredByColumn(criteria, column, lst):
+
+    print (lst[0])
     """
     Retorna cuantos elementos coinciden con un criterio para una columna dada  
     Args:
@@ -149,9 +150,10 @@ def main():
                     print("La lista esta vacía")    
                 else: print("La lista tiene "+str(len(listac))+" elementos")
             elif int(inputs[0])==3: #opcion 3
-                criteria =input('Ingrese el criterio de búsqueda\n')
-                counter=countElementsFilteredByColumn(criteria, "nombre", listac) #filtrar una columna por criterio  
-                print("Coinciden ",counter," elementos con el crtierio: ", criteria  )
+                columna_busqueda = input ("Ingrese el nombre de la columna que desea buscar: ")
+                criterio = input('Ingrese el criterio de búsqueda para realizar el conteo de coincidencias: ')
+                counter=countElementsFilteredByColumn(criterio, columna_busqueda, listac) #filtrar una columna por criterio  
+                print( "\nPara la busqueda de {} en la columna {}, se tienen {} coincidencias" .format(criterio, columna_busqueda, counter) )
             elif int(inputs[0])==4: #opcion 4
                 criteria =input('Ingrese el criterio de búsqueda\n')
                 counter,promedio=countElementsByCriteria(criteria,listac,listar)
@@ -161,3 +163,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
