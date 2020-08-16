@@ -33,7 +33,6 @@ Esto es un comentario de prueba. No olvidar borrar
 Esto es un comentario de prueba. No olvidar borrar
 """
 
-
 import config as cf
 import sys
 import csv
@@ -64,6 +63,7 @@ def loadCSVFile (file, lst, sep=";"):
             spamreader = csv.DictReader(csvfile, dialect=dialect)
             for row in spamreader: 
                 lst.append(row)
+            
     except:
         del lst[:]
         print("Se presento un error en la carga del archivo")
@@ -83,6 +83,8 @@ def printMenu():
     print("0- Salir")
 
 def countElementsFilteredByColumn(criteria, column, lst):
+
+    print (lst[0])
     """
     Retorna cuantos elementos coinciden con un criterio para una columna dada  
     Args:
@@ -109,11 +111,20 @@ def countElementsFilteredByColumn(criteria, column, lst):
         print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
     return counter
 
-def countElementsByCriteria(criteria, column, lst):
+def countElementsByCriteria(criteria, lst ,lst2):
     """
     Retorna la cantidad de elementos que cumplen con un criterio para una columna dada
     """
-    return 0
+    contador=0
+    sumatoria=0
+    for i in range (0,len(lst)-2) :
+        if lst2[i]["director_name"]==criteria and float(lst[i]["vote_average"]) >= 6:
+            print(lst2[i]["director_name"]) 
+            print((lst[i]["vote_average"]))
+            contador+=1
+            sumatoria+=float(lst[i]["vote_average"])
+    tupla=(contador,sumatoria/contador)
+    return tupla
 
 
 def main():
@@ -124,26 +135,29 @@ def main():
     Args: None
     Return: None 
     """
-    lista = [] #instanciar una lista vacia
+    listac = [] #instanciar una lista vacia
+    listar =[]
     while True:
         printMenu() #imprimir el menu de opciones en consola
         inputs =input('Seleccione una opción para continuar\n') #leer opción ingresada
         if len(inputs)>0:
             if int(inputs[0])==1: #opcion 1
-                loadCSVFile("Data/test.csv", lista) #llamar funcion cargar datos
-                print("Datos cargados, "+str(len(lista))+" elementos cargados")
+                loadCSVFile("Data/SmallMoviesDetailsCleaned.csv", listac) #llamar funcion cargar datos
+                loadCSVFile("Data/MoviesCastingRaw-small.csv",listar )
+                print("Datos cargados, "+str(len(listac))+" elementos cargados")
             elif int(inputs[0])==2: #opcion 2
-                if len(lista)==0: #obtener la longitud de la lista
+                if len(listac)==0: #obtener la longitud de la lista
                     print("La lista esta vacía")    
-                else: print("La lista tiene "+str(len(lista))+" elementos")
+                else: print("La lista tiene "+str(len(listac))+" elementos")
             elif int(inputs[0])==3: #opcion 3
-                criteria =input('Ingrese el criterio de búsqueda\n')
-                counter=countElementsFilteredByColumn(criteria, "nombre", lista) #filtrar una columna por criterio  
-                print("Coinciden ",counter," elementos con el crtierio: ", criteria  )
+                columna_busqueda = input ("Ingrese el nombre de la columna que desea buscar: ")
+                criterio = input('Ingrese el criterio de búsqueda para realizar el conteo de coincidencias: ')
+                counter=countElementsFilteredByColumn(criterio, columna_busqueda, listac) #filtrar una columna por criterio  
+                print( "\nPara la busqueda de {} en la columna {}, se tienen {} coincidencias" .format(criterio, columna_busqueda, counter) )
             elif int(inputs[0])==4: #opcion 4
                 criteria =input('Ingrese el criterio de búsqueda\n')
-                counter=countElementsByCriteria(criteria,0,lista)
-                print("Coinciden ",counter," elementos con el crtierio: '", criteria ,"' (en construcción ...)")
+                counter,promedio=countElementsByCriteria(criteria,listac,listar)
+                print("En total, hay ",counter," películas del director: '", criteria ,".' Dichas películas tuvieron una votacion promedio de: " , promedio)
             elif int(inputs[0])==0: #opcion 0, salir
                 sys.exit(0)
 
