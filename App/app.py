@@ -93,6 +93,8 @@ def loadCSVFile (file,file2, lst, sep=";"):
     lst = []
     del lst[:]
     print("Cargando archivo ....")
+    t1_start = process_time() #tiempo inicial
+
     try:
         with open(file, encoding="utf-8") as csvfile:
             csvfile2=open(file2, encoding="utf-8")
@@ -233,22 +235,22 @@ def main():
         inputs =input('Seleccione una opción para continuar\n') #leer opción ingresada
         if len(inputs)>0:
             if int(inputs[0])==1: #opcion 1
-                loadCSVFile ("SmallMoviesDetailsCleaned.csv","SmallMoviesDetailsCleaned.csv", lst, sep=";")
+                loadCSVFile ("SmallMoviesDetailsCleaned.csv","SmallMoviesDetailsCleaned.csv", lista, sep=";")
                 #loadCSVFile("Data/SmallMoviesDetailsCleaned.csv", listac) #llamar funcion cargar datos
                 #loadCSVFile("Data/MoviesCastingRaw-small.csv",listar )
-                print("Datos cargados, "+str(len(lst))+" elementos cargados")
+                print("Datos cargados, "+str(len(lista))+" elementos cargados")
             elif int(inputs[0])==2: #opcion 2
-                if len(listac)==0: #obtener la longitud de la lista
+                if len(lista)==0: #obtener la longitud de la lista
                     print("La lista esta vacía")    
-                else: print("La lista tiene "+str(len(listac))+" elementos")
+                else: print("La lista tiene "+str(len(lista))+" elementos")
             elif int(inputs[0])==3: #opcion 3
                 columna_busqueda = input ("Ingrese el nombre de la columna que desea buscar: ")
                 criterio = input('Ingrese el criterio de búsqueda para realizar el conteo de coincidencias: ')
-                counter=countElementsFilteredByColumn(criterio, columna_busqueda, lst) #filtrar una columna por criterio  
+                counter=countElementsFilteredByColumn(criterio, columna_busqueda, lista) #filtrar una columna por criterio  
                 print( "\nPara la busqueda de {} en la columna {}, se tienen {} coincidencias" .format(criterio, columna_busqueda, counter) )
             elif int(inputs[0])==4: #opcion 4
                 criteria =input('Ingrese el criterio de búsqueda\n')
-                counter,promedio=countElementsByCriteria(criteria,listac,listar)
+                counter,promedio=countElementsByCriteria(criteria,lista)
                 print("En total, hay ",counter," películas del director: '", criteria ,".' Dichas películas tuvieron una votacion promedio de: " , promedio)
             elif int(inputs[0])==0: #opcion 0, salir
                 sys.exit(0)
