@@ -89,6 +89,8 @@ def loadCSVFile (file,file2, lst, sep=";"):
         Borra la lista e informa al usuario
     Returns: None   
     """
+
+    lst = []
     del lst[:]
     print("Cargando archivo ....")
     try:
@@ -141,7 +143,7 @@ def loadCSVFile (file,file2, lst, sep=";"):
                 diccio["producer_number"]=datos2[15]
                 diccio["screenplay_name"]=datos2[16]
                 diccio["editor_name"]=datos2[17].replace("\n","")
-                lst.append([diccio])                
+                lst.append(diccio)                
                 linea=csvfile.readline()
                 linea2=csvfile2.readline()
 
@@ -196,20 +198,24 @@ def countElementsFilteredByColumn(criteria, column, lst):
         print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
     return counter
 
-def countElementsByCriteria(criteria, lst ,lst2):
+def countElementsByCriteria(criteria, lst):
     """
     Retorna la cantidad de elementos que cumplen con un criterio para una columna dada
     """
     contador=0
     sumatoria=0
     for i in range (0,len(lst)-2) :
-        if lst2[i]["director_name"]==criteria and float(lst[i]["vote_average"]) >= 6:
-            print(lst2[i]["director_name"]) 
-            print((lst[i]["vote_average"]))
+        if lst[i]["director_name"]==criteria and float(lst[i]["vote_average"]) >= 6:
+            #print(lst2[i]["director_name"]) 
+            #print((lst[i]["vote_average"]))
             contador+=1
             sumatoria+=float(lst[i]["vote_average"])
-    tupla=(contador,sumatoria/contador)
-    return tupla
+
+    promedio = 0
+    if contador > 0:
+        promedio = sumatoria/contador
+    
+    return contador, promedio
 
 
 def main():
@@ -238,7 +244,7 @@ def main():
             elif int(inputs[0])==3: #opcion 3
                 columna_busqueda = input ("Ingrese el nombre de la columna que desea buscar: ")
                 criterio = input('Ingrese el criterio de búsqueda para realizar el conteo de coincidencias: ')
-                counter=countElementsFilteredByColumn(criterio, columna_busqueda, listac) #filtrar una columna por criterio  
+                counter=countElementsFilteredByColumn(criterio, columna_busqueda, lst) #filtrar una columna por criterio  
                 print( "\nPara la busqueda de {} en la columna {}, se tienen {} coincidencias" .format(criterio, columna_busqueda, counter) )
             elif int(inputs[0])==4: #opcion 4
                 criteria =input('Ingrese el criterio de búsqueda\n')
