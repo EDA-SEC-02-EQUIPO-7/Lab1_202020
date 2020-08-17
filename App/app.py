@@ -75,7 +75,7 @@ def loadCSVFile (file, lst, sep=";"):
 """
 
 def loadCSVFile (file,file2, lst, sep=";"):
-    
+    t1_start = process_time() #tiempo inicial
     try:
         with open(file, encoding="utf-8") as csvfile:
             csvfile2=open(file2, encoding="utf-8")
@@ -134,6 +134,8 @@ def loadCSVFile (file,file2, lst, sep=";"):
     except:
         del lst[:]
         print("Se presento un error en la carga del archivo")
+    t1_stop = process_time() #tiempo final
+    print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
 
 
 
